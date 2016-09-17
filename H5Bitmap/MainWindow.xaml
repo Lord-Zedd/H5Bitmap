@@ -26,6 +26,6 @@
 			</StackPanel>
 			<TextBlock Margin="0,8,0,0" Text="Files are output as a DX10 DDS. Read: i just slap a header on them. if you use photoshop you may need &quot;Intel Texture Works Plugin for Photoshop&quot; to open these so go google that. any other program idk." TextWrapping="Wrap" />
 		</StackPanel>
-		<TextBox x:Name="statustext" Text="Drag .bitmap files anywhere above to convert. ONLY .BITMAP FILES!" Height="100" VerticalAlignment="Bottom"/>
+		<TextBox x:Name="statustext" Height="100" VerticalAlignment="Bottom"/>
 	</Grid>
 </Window>

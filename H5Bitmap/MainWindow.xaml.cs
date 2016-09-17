@@ -41,6 +41,8 @@ namespace H5Bitmap
 			mipbox.Items.Add(1);
 			mipbox.Items.Add(2);
 			mipbox.SelectedIndex = 0;
+
+			WriteLog("Drag .bitmap files anywhere above to convert. ONLY .BITMAP FILES!");
 		}
 
 		private void Window_Drop(object sender, DragEventArgs e)
