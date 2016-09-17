@@ -1,0 +1,31 @@
+﻿<Window x:Class="H5Bitmap.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:H5Bitmap"
+        mc:Ignorable="d"
+        Title="Zedds Super Cool Bitmap Tool For Halo 5 PC" Height="350" Width="525"
+		Drop="Window_Drop" AllowDrop="True">
+    <Grid>
+		<StackPanel Orientation="Vertical" Margin="4">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="64"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="30"/>
+				</Grid.ColumnDefinitions>
+				<CheckBox x:Name="checkpath" Content="Save To" Grid.Column="0" VerticalAlignment="Center"/>
+				<TextBox x:Name="pathbox" Grid.Column="1"/>
+				<Button Content="..." Grid.Column="2" Click="Button_Click"/>
+			</Grid>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="MIP offset" VerticalAlignment="Center"/>
+				<ComboBox x:Name="mipbox" Width="100" Margin="10,0,0,0"/>
+				<TextBlock Text="If a texture with chunk files comes out blank, use this" VerticalAlignment="Center" Margin="4,0,0,0"/>
+			</StackPanel>
+			<TextBlock Margin="0,8,0,0" Text="Files are output as a DX10 DDS. Read: i just slap a header on them. if you use photoshop you may need &quot;Intel Texture Works Plugin for Photoshop&quot; to open these so go google that. any other program idk." TextWrapping="Wrap" />
+		</StackPanel>
+		<TextBox x:Name="statustext" Text="Drag .bitmap files anywhere above to convert. ONLY .BITMAP FILES!" Height="100" VerticalAlignment="Bottom"/>
+	</Grid>
+</Window>
