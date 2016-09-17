@@ -229,7 +229,7 @@ namespace H5Bitmap
 						statussaveloc = " to output directory";
 
 
-					WriteLog("\r\nfile \"" + filename + "_" + i + ".dds\" saved" + statussaveloc);
+					WriteLog("file \"" + filename + "_" + i + ".dds\" saved" + statussaveloc);
 				}
 			}
 
