@@ -24,7 +24,7 @@
 				<ComboBox x:Name="mipbox" Width="100" Margin="10,0,0,0"/>
 				<TextBlock Text="If a texture with chunk files comes out blank, use this" VerticalAlignment="Center" Margin="4,0,0,0"/>
 			</StackPanel>
-			<TextBlock Margin="0,8,0,0" Text="Files are output as a DX10 DDS. Read: i just slap a header on them. if you use photoshop you may need &quot;Intel Texture Works Plugin for Photoshop&quot; to open these so go google that. any other program idk." TextWrapping="Wrap" />
+			<TextBlock Margin="0,8,0,0" Text="Files are output as a DX10 DDS. Read: i just slap a header on them. if you use photoshop you may need &quot;Intel Texture Works Plugin for Photoshop&quot; to open these so go google that. any other program idk. Also, if you get chunk errors try extracting your modules closer to the root of your drive." TextWrapping="Wrap" />
 		</StackPanel>
 		<TextBox x:Name="statustext" Height="100" TextWrapping="Wrap" VerticalAlignment="Bottom"/>
 	</Grid>

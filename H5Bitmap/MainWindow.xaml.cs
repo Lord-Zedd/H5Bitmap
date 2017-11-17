@@ -143,7 +143,6 @@ namespace H5Bitmap
 
 					string imagepath = path + filename + ".bitmap[" + i + "_bitmap resource handle_]";
 
-
 					if (chunky)
 					{
 						int chunkval = chunkfiles.Count - 1;
@@ -256,48 +255,62 @@ namespace H5Bitmap
 		{
 			switch (tagformat)
 			{
-				case 0x0:
-					return 65;
+				case 0x0: return 65;
 				case 0x1:
-				case 0x2:
-					return 61;
-				case 0x3:
-					return 49;
-				case 0xB:
-					return 0x57;
-				case 0xE:
-					return 0x47;
-				case 0xF:
-					return 74;
-				case 0x10:
-					return 0x4D;
-				case 0x18:
-					return 0x2;
-				case 0x19:
-					return 10;
-				case 0x1c:
-					return 31;
-				case 0x20:
-					return 56;
+				case 0x2: return 61;
+				case 0x3: return 49;
+				// 4 unused?
+				// 5 unused?
+				case 0x6: return 85;
+				// 7 unused?
+				case 0x8: return 86;
+				case 0x9: return 115;
+				case 0xA: return 88;
+				case 0xB: return 87;
+				// c unused?
+				case 0xE: return 71;
+				case 0xF: return 74;
+				case 0x10: return 77;
+				// 11 deprecated?
+				// 12 unused?
+				// 13 unused?
+				// 14 deprecated?
+				// 15 unused?
+				case 0x16: return 51;
+				// 17 deprecated?
+				case 0x18: return 2;
+				case 0x19: return 10;
+				case 0x1A:
+				case 0x1B: return 54;
+				case 0x1C: return 31;
+				case 0x1D: return 24;
+				case 0x1E: return 11;
+				case 0x1F: return 37;
+				case 0x20: return 56;
+				case 0x21: return 35;
+				case 0x22: return 13;
+				// 23 deprecated?
 				case 0x24:
 				case 0x2B:
-				case 0x2C:
-					return 80;
-				case 0x25:
-					return 81;
-				case 0x27:
-					return 0x54;
-				case 0x2D:
-					return 83;
-				case 0x2E:
-					return 84;
-				case 0x31:
-					return 0x61;
-				default:
-					return -1;
+				case 0x2C: return 80;
+				case 0x25: return 81;
+				// 26 deprecated?
+				case 0x27: return 84;
+				case 0x28: return 107; // This is a guess, tag defs claim this format is deprecated, yet it is still used. gg
+				// 29 deprecated?
+				// 2a deprecated?
+				// 2b/2c is above 
+				case 0x2D: return 83;
+				case 0x2E: return 84;
+				case 0x2F: return 95;
+				case 0x30: return 96;
+				case 0x31: return 97;
+				case 0x32: return 45;
+				case 0x33: return 26;
 
-				case 0x28:
-					return 49; // This is a guess, tag defs claim this format is deprecated, yet it is still used. gg
+				default: return -1;
+
+				
 
 
 			}
