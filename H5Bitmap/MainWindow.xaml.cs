@@ -71,10 +71,8 @@ namespace H5Bitmap
 				string path = file.Substring(0, file.LastIndexOf("\\") + 1);
 
 				int slashloc = file.LastIndexOf("\\") + 1;
-				//int temp2 = file.IndexOf(".bitmap");
 
 				string filename = file.Substring(slashloc, file.Length - slashloc - 7);
-				//filename.
 
 				string[] allfiles = Directory.GetFiles(path, filename + "*", SearchOption.TopDirectoryOnly);
 
@@ -125,13 +123,21 @@ namespace H5Bitmap
 
 				byte[] bitm;
 
+				List<string> ctxbitms = new List<string>();
+
 				//grab and save each dds
 				for (int i = 0; i < bitmfiles.Count; i++)
 				{
 					int newformat = GetFormat(infos[i].Format);
+
+					bool ctxwarning = false;
+
+					if (infos[i].Format == 40)
+						ctxwarning = true;
+
 					if (newformat == -1)
 					{
-						WriteLog("unsupported format " + infos[i].Format + " in file \"" + file + " \". let me know about this somewhere");
+						WriteLog("unsupported format " + infos[i].Format + " in file \"" + filename + " \". let me know about this somewhere");
 						continue;
 					}
 
@@ -153,7 +159,7 @@ namespace H5Bitmap
 						{
 							fs = new FileStream(imagepath + "[" + chunkval + "_bitmap resource handle_.chunk" + chunkval + "]", FileMode.Open, FileAccess.Read);
 						}
-						catch (Exception ex)
+						catch
 						{
 							WriteLog("could not find chunk file, double check you didnt rename anything");
 						}
@@ -232,6 +238,15 @@ namespace H5Bitmap
 
 
 					WriteLog("file \"" + filename + "_" + i + ".dds\" saved" + statussaveloc);
+
+					if (ctxwarning)
+						ctxbitms.Add(filename);
+					
+				}
+
+				foreach (string s in ctxbitms)
+				{
+					WriteLog("WARNING: Bitmap " + s + " was extracted with a guessed format, report this message with bitmap name to me on twitter!");
 				}
 			}
 
@@ -241,18 +256,50 @@ namespace H5Bitmap
 		{
 			switch (tagformat)
 			{
+				case 0x0:
+					return 65;
+				case 0x1:
+				case 0x2:
+					return 61;
+				case 0x3:
+					return 49;
 				case 0xB:
 					return 0x57;
 				case 0xE:
 					return 0x47;
+				case 0xF:
+					return 74;
 				case 0x10:
 					return 0x4D;
+				case 0x18:
+					return 0x2;
+				case 0x19:
+					return 10;
+				case 0x1c:
+					return 31;
+				case 0x20:
+					return 56;
+				case 0x24:
+				case 0x2B:
+				case 0x2C:
+					return 80;
+				case 0x25:
+					return 81;
 				case 0x27:
 					return 0x54;
+				case 0x2D:
+					return 83;
+				case 0x2E:
+					return 84;
 				case 0x31:
 					return 0x61;
 				default:
 					return -1;
+
+				case 0x28:
+					return 49; // This is a guess, tag defs claim this format is deprecated, yet it is still used. gg
+
+
 			}
 		}
 
@@ -274,7 +321,6 @@ namespace H5Bitmap
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			System.Windows.Forms.FolderBrowserDialog folderDialog = new System.Windows.Forms.FolderBrowserDialog();
-			//folderDialog.SelectedPath = "C:\\";
 
 			System.Windows.Forms.DialogResult result = folderDialog.ShowDialog();
 			if (result.ToString() == "OK")
