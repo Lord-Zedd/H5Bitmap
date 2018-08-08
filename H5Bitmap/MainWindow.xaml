@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:H5Bitmap"
         mc:Ignorable="d"
-        Title="Zedds Super Cool Bitmap Tool For Halo 5 PC (Nov 2017)" Height="350" Width="550"
+        Title="Zedds Super Cool Bitmap Tool For Halo 5 Forge/Server (Aug 2018)" Height="350" Width="550"
 		Drop="Window_Drop" AllowDrop="True">
     <Grid>
 		<StackPanel Orientation="Vertical" Margin="4">

@@ -11,7 +11,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
 
 namespace H5Bitmap
@@ -52,7 +51,6 @@ namespace H5Bitmap
 				WriteLog("set a path you dummy");
 				return;
 			}
-			
 
 			string[] draggedFiles = (string[])e.Data.GetData(DataFormats.FileDrop, true);
 
@@ -63,18 +61,18 @@ namespace H5Bitmap
 				//check if this is a bitmap tag
 				if (!file.EndsWith(".bitmap"))
 				{
-					WriteLog("this is not a .bitmap you dummy");
+					WriteLog(Path.GetFileName(file) + " is not a .bitmap you dummy");
 					continue;
 				}
 
 				//check how many raw images are in the same folder
-				string path = file.Substring(0, file.LastIndexOf("\\") + 1);
+				string path = @"\\?\" + Path.GetDirectoryName(file) + "\\";
 
-				int slashloc = file.LastIndexOf("\\") + 1;
-
-				string filename = file.Substring(slashloc, file.Length - slashloc - 7);
+				string filename = Path.GetFileNameWithoutExtension(file);
 
 				string[] allfiles = Directory.GetFiles(path, filename + "*", SearchOption.TopDirectoryOnly);
+
+				int resOffset = file.Contains("{ds}") ? 0x114 : 0x11C;
 
 				//go through files
 				bool chunky = false;
@@ -91,6 +89,18 @@ namespace H5Bitmap
 
 					if (pp.EndsWith("_bitmap resource handle_]"))
 						bitmfiles.Add(pp);
+				}
+
+				if (bitmfiles.Count == 0)
+				{
+					if (file.Contains("{ds}"))
+					{
+						WriteLog(Path.GetFileName(file) + " has no raw data. H5 Server doesn't include many full bitmaps so this is likely expected.");
+					}
+					else
+						WriteLog(Path.GetFileName(file) + " has no raw data. Your module might not have extracted fully.");
+
+					continue;
 				}
 
 				//read the bitmap tag file
@@ -153,37 +163,45 @@ namespace H5Bitmap
 							infos[i].Height /= (mipbox.SelectedIndex + 1);
 						}
 
-
+						string chunkpath = imagepath + "[" + chunkval + "_bitmap resource handle_.chunk" + chunkval + "]";
+						if (!File.Exists(chunkpath))
+						{
+							WriteLog("could not find chunk file, double check you didnt rename anything");
+							continue;
+						}
+							
 						try
 						{
-							fs = new FileStream(imagepath + "[" + chunkval + "_bitmap resource handle_.chunk" + chunkval + "]", FileMode.Open, FileAccess.Read);
+							bitm = File.ReadAllBytes(chunkpath);
 						}
 						catch
 						{
-							WriteLog("could not find chunk file, double check you didnt rename anything");
+							WriteLog("could not read chunk file, path could be too long");
+							continue;
 						}
 
-
-						bitm = new byte[fs.Length];
-						fs.Read(bitm, 0, (int)fs.Length);
-
-						fs.Close();
 					}
 					else
 					{
+						if (!File.Exists(imagepath))
+						{
+							WriteLog("could not find raw data file, double check you didnt rename anything");
+							continue;
+						}
+
 						try
 						{
 							fs = new FileStream(imagepath, FileMode.Open, FileAccess.Read);
 						}
 						catch
 						{
-							WriteLog("could not find raw data file, double check you didnt rename anything");
+							WriteLog("could not read raw data file, path could be too long");
 						}
 
-						fs.Position += 0x11C;
+						fs.Position += resOffset;
 
-						bitm = new byte[fs.Length - 0x11C];
-						fs.Read(bitm, 0, (int)fs.Length - 0x11C);
+						bitm = new byte[fs.Length - resOffset];
+						fs.Read(bitm, 0, (int)fs.Length - resOffset);
 
 						fs.Close();
 					}
